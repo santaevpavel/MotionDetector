@@ -1,6 +1,6 @@
-C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\classes\debug
-C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-5e65c05cfac7da16957a53ddfc57e45c0695e793.jar
-C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-18b02b08ddd4f6ad0c9bbbcdfa7156089d85bfdd.jar
-C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-362254a01d4070ddb93e6dc2011d44ccc59f5f5c.jar
-C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\liblinphone-dc5ce2e4b576062b22b55d887d8431626eca0293.jar
-C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-9c44b130d195f2cb6147f71714f2da14165f3035.jar
+C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\classes\debug
+C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-5e65c05cfac7da16957a53ddfc57e45c0695e793.jar
+C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-3681e39bb53c6507aacb5d3b472a53bbeccd0bfe.jar
+C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-3901d30e20013ca48109d8d2715071163baa5d37.jar
+C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\liblinphone-90028eed4d0cf11d0e22359e6fc0ab8e316d0be4.jar
+C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-1d59509edac2e46c3eb94232129a199e12093096.jar

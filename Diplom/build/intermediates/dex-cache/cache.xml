@@ -2,18 +2,46 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-9c44b130d195f2cb6147f71714f2da14165f3035.jar" />
-    </item>
-    <item
         jar="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\exploded-aar\Diplom\openCVLibrary2410\unspecified\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="55bce71bf693d1b770edc6ca71c22a27f62d5d12">
         <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-362254a01d4070ddb93e6dc2011d44ccc59f5f5c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\exploded-aar\Diplom\openCVLibrary2410\unspecified\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fd078189b68da9f328001f2c758bc4c38d034a9c">
+        <dex dex="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-3901d30e20013ca48109d8d2715071163baa5d37.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-3681e39bb53c6507aacb5d3b472a53bbeccd0bfe.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\libs\liblinphone.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8275e5e0223bd19e0677da97f395d2b644bd844a">
+        <dex dex="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\liblinphone-90028eed4d0cf11d0e22359e6fc0ab8e316d0be4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Pavel\Documents\Programming\Android\Diplom\MotionDetector\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-1d59509edac2e46c3eb94232129a199e12093096.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\classes-9c44b130d195f2cb6147f71714f2da14165f3035.jar" />
     </item>
     <item
         jar="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\libs\liblinphone.jar"
@@ -23,18 +51,18 @@
         <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\liblinphone-dc5ce2e4b576062b22b55d887d8431626eca0293.jar" />
     </item>
     <item
-        jar="C:\Users\Pavel\Documents\Programming\Android\SDK\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-5e65c05cfac7da16957a53ddfc57e45c0695e793.jar" />
-    </item>
-    <item
         jar="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-18b02b08ddd4f6ad0c9bbbcdfa7156089d85bfdd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavel\Documents\Programming\Android\SDK\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Pavel\AndroidStudioProjects\Diplom\diplom\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-5e65c05cfac7da16957a53ddfc57e45c0695e793.jar" />
     </item>
 
 </items>
