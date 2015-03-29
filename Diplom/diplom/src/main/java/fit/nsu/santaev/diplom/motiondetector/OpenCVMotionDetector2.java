@@ -44,7 +44,9 @@ public class OpenCVMotionDetector2 extends IMotionDetector{
 		Mat output = frame.clone();
 		bsub.apply(frame, output, 0.01f);
 		resultFrame.frame = output;
-		resultFrame.value = 5;
+        double d[] = Core.sumElems(output).val;
+        double d2 = d[0] / frame.rows() / frame.cols();
+        resultFrame.value = d2;
 		return resultFrame;
 	}
 

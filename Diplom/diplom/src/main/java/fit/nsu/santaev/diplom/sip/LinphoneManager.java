@@ -33,6 +33,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import fit.nsu.santaev.diplom.activity.CallListener;
+
 public class LinphoneManager {
 
 	private static LinphoneManager instance = null;
@@ -40,7 +42,8 @@ public class LinphoneManager {
 	
 	private LinphoneCoreFactory linphoneCoreFactory;
 	private LinphoneCore linphoneCore;
-	
+	private CallListener listener;
+
 	private LinphoneManager(Context context) throws LinphoneCoreException{
 		linphoneCoreFactory = LinphoneCoreFactory.instance();
 		linphoneCore = linphoneCoreFactory.createLinphoneCore(new LinphoneCoreListener() {
@@ -196,15 +199,26 @@ public class LinphoneManager {
 				Log.d("LINMANAGER", "callState " + cstate + " " + message);
 				if (cstate.fromInt(cstate.value()) == State.IncomingReceived){
 					try {
+                        if (null != listener){
+                            listener.onIncomingCall();
+                        }
+
 						linphoneCore.acceptCall(call);
 						linphoneCore.enableVideo(true, true);
 						call.enableCamera(true);
+                        LinphoneCallParams lcp = call.getRemoteParams();
+                        lcp.setVideoEnabled(true);
+                        try {
+                            linphoneCore.acceptCallUpdate(call, lcp);
+                        } catch (LinphoneCoreException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
 					} catch (LinphoneCoreException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				} else 
-					if (cstate == State.StreamsRunning || cstate == State.CallUpdatedByRemote){
+				} else if (cstate == State.StreamsRunning || cstate == State.CallUpdatedByRemote){
 						linphoneCore.enableVideo(true, true);
 						call.enableCamera(true);
 						linphoneCore.enableSpeaker(true);
@@ -216,7 +230,11 @@ public class LinphoneManager {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					} 
+			    } else if (cstate == State.CallEnd){
+                    if (null != listener){
+                        listener.onCallFinished();
+                    }
+                }
 			
 		
 			}
@@ -255,38 +273,11 @@ public class LinphoneManager {
 	}
 	
 	public void register(Context context, String name, String psw, String server, String proxy, String iden){
-		/*try {
-			linphoneCore.addAuthInfo(linphoneCoreFactory.createAuthInfo(name, psw, "", server));
-			LinphoneProxyConfig lproxy = linphoneCore.createProxyConfig(iden, proxy, "", true);
-			linphoneCore.setDefaultProxyConfig(lproxy);
-			linphoneCore.addProxyConfig(lproxy);
-			//linphoneCore.
-		} catch (LinphoneCoreException e) {
-			e.printStackTrace();
-		}*/
-		
-		
-		//linphoneCore.enableSpeaker(true);
-		//linphoneCore.enableVideo(true, true);
-		//int i = 0;
-		/*try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-		while(i < 5){
-			linphoneCore.iterate();
-			i++;
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		i = 10;*/
 		linphoneCore.setVideoDevice(AndroidCameraConfiguration.retrieveCameras()[0].id);
 		linphoneCore.enableVideo(true,  true);
-		
+        linphoneCore.enableSpeaker(true);
+		linphoneCore.setVideoPolicy(true, true);
+
 		String tempUsername = name;
 		String tempDisplayName = name;
 		String tempDomain = server;
@@ -307,7 +298,7 @@ public class LinphoneManager {
 		LinphoneAddress identityAddr = null;
 		LinphoneAddress proxyAddr  = null;
 		try {
-			proxyAddr = linphoneCoreFactory.createLinphoneAddress(proxy);
+			proxyAddr = linphoneCoreFactory.createLinphoneAddress(proxy + ":5080");
 			identityAddr = linphoneCoreFactory.createLinphoneAddress(identity);
 		} catch (LinphoneCoreException e) {
 			e.printStackTrace();
@@ -388,7 +379,10 @@ public class LinphoneManager {
 			e.printStackTrace();
 		}
 	}
-	
+
+    public void registerCallListener(CallListener listener){
+        this.listener = listener;
+    }
 	
 	public static LinphoneManager getInstance(){
 		return instance;

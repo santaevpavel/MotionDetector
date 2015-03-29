@@ -51,19 +51,20 @@ containing a value of this type.
     public static final class id {
         public static final int HelloOpenCvView=0x7f080003;
         public static final int RelativeLayout1=0x7f080012;
-        public static final int action_settings=0x7f08001c;
+        public static final int action_settings=0x7f08001d;
         public static final int any=0x7f080000;
         public static final int back=0x7f080001;
-        public static final int button2=0x7f08001b;
+        public static final int button2=0x7f08001c;
         public static final int buttonCall=0x7f080007;
         public static final int buttonCall2=0x7f080008;
         public static final int buttonInit=0x7f080009;
-        public static final int call=0x7f080019;
-        public static final int container=0x7f08001a;
+        public static final int call=0x7f08001a;
+        public static final int container=0x7f08001b;
         public static final int dest_user=0x7f08000a;
+        public static final int frame_hsv=0x7f080017;
         public static final int frame_hystogram=0x7f080016;
-        public static final int frame_open_cv=0x7f080017;
-        public static final int frame_open_cv2=0x7f080018;
+        public static final int frame_open_cv=0x7f080018;
+        public static final int frame_open_cv2=0x7f080019;
         public static final int frame_subtract_button=0x7f080014;
         public static final int frame_subtract_button2=0x7f080015;
         public static final int frame_test_button=0x7f080013;

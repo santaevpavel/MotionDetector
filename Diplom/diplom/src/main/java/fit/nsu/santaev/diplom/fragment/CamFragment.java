@@ -6,17 +6,21 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
+import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
 import fit.nsu.santaev.diplom.Graphics;
 import fit.nsu.santaev.diplom.R;
 import fit.nsu.santaev.diplom.activity.MainActivity;
 import fit.nsu.santaev.diplom.motiondetector.IMotionDetector;
 import fit.nsu.santaev.diplom.motiondetector.ResultFrame;
+import fit.nsu.santaev.diplom.utils.MotionDetectorService;
 
 import android.app.Fragment;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.net.NetworkInfo.DetailedState;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +50,8 @@ public class CamFragment extends Fragment implements CvCameraViewListener2{
 	private SeekBar trasholdBar;
 	private IMotionDetector motionDetector;
 	private boolean showGrapchics = false;
-	
+	private int frames = 0;
+
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(
 			getActivity()) {
 		@Override
@@ -71,8 +76,9 @@ public class CamFragment extends Fragment implements CvCameraViewListener2{
 		Log.i(TAG, "called onCreate");
 		super.onCreate(savedInstanceState);
 		getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
+		MotionDetectorService.init();
 		motionDetector = (IMotionDetector) getArguments().getSerializable("Det");
+        ((MainActivity)getActivity()).onMotionDetectionStatusChanged(true, this);
 	}
 
 	@Override
@@ -81,8 +87,15 @@ public class CamFragment extends Fragment implements CvCameraViewListener2{
 				mLoaderCallback);
 		super.onResume();
 	}
-	
-	@Override
+
+    @Override
+    public void onDetach() {
+        changeVideoStatus(false);
+        ((MainActivity)getActivity()).onMotionDetectionStatusChanged(false, this);
+        super.onDetach();
+    }
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View content = View.inflate(getActivity(), R.layout.cam_fragment, null);
@@ -120,6 +133,13 @@ public class CamFragment extends Fragment implements CvCameraViewListener2{
 				motionDetector.func1(getActivity());
 			}
 		});
+        mOpenCvCameraView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showGrapchics = !showGrapchics;
+                return true;
+            }
+        });
 		return content;
 	}
 	
@@ -149,15 +169,29 @@ public class CamFragment extends Fragment implements CvCameraViewListener2{
 			graphic.add(res.value);
 		}
 		if (motionDetector.getMaxTreshold() < res.value){
-			((MainActivity)getActivity()).warning();
+            Bitmap bmp = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(frame, bmp);
+			((MainActivity)getActivity()).warning(bmp);
 		}
-		getActivity().runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				graphic.invalidate();
 			}
 		});
+        frames++;
+        if (20 >= frames){
+            System.gc();
+            frames = 0;
+        }
 		return frame;
 	}
 
+    public void changeVideoStatus(boolean value){
+        if (value){
+            mOpenCvCameraView.enableView();
+        } else {
+            mOpenCvCameraView.disableView();
+        }
+    }
 }

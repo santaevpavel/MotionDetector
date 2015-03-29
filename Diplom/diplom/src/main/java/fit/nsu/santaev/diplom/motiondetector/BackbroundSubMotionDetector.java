@@ -65,9 +65,11 @@ public class BackbroundSubMotionDetector extends IMotionDetector{
 		//}
 
         Mat blured = new Mat();
+        Mat rgb = new Mat();
         Mat cvt = new Mat();
-        Imgproc.blur(frame, blured, new Size(20, 20));
-        Imgproc.cvtColor(blured, cvt, Imgproc.COLOR_RGB2HSV_FULL);
+        Imgproc.blur(frame, blured, new Size(10, 10));
+        Imgproc.cvtColor(blured, rgb, Imgproc.COLOR_RGBA2RGB);
+        Imgproc.cvtColor(rgb, cvt, Imgproc.COLOR_RGB2HSV_FULL);
 		org.opencv.core.Core.split(cvt, rgba);
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,49 +20,56 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="5dp"
 	        android:text="Тестовое" />
 	    <Button
 	        android:id="@+id/frame_subtract_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="5dp"
 	        android:text="Межкадровая разность" />
 		<Button
 	        android:id="@+id/frame_subtract_button2"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="5dp"
 	        android:text="Межкадровая разность 2" />
 
 		<Button
 		    android:id="@+id/frame_hystogram"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_marginTop="10dp"
+		    android:layout_marginTop="5dp"
 		    android:text="Гистограмма" />
+
+        <Button
+            android:id="@+id/frame_hsv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HSV"
+            android:layout_marginTop="5dp"/>
 		
 		<Button
 		    android:id="@+id/frame_open_cv"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_marginTop="10dp"
+		    android:layout_marginTop="5dp"
 		    android:text="OpenCV" />
 		
 	    <Button
 		    android:id="@+id/frame_open_cv2"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_marginTop="10dp"
+		    android:layout_marginTop="5dp"
 		    android:text="OpenCV2" />
 	    
 		<Button
 		    android:id="@+id/call"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_marginTop="10dp"
+		    android:layout_marginTop="5dp"
 		    android:text="Позвонить" />
 		
 	</LinearLayout>

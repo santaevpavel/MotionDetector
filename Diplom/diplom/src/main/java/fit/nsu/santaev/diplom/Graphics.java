@@ -1,6 +1,7 @@
 package fit.nsu.santaev.diplom;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.opencv.core.Mat;
@@ -16,8 +17,8 @@ import android.view.View;
 
 public class Graphics extends View {
 
-	private List<Double> values = new ArrayList<Double>();
-	private List<Long> times = new ArrayList<Long>();
+	private List<Double> values = new LinkedList<Double>();
+	private List<Long> times = new LinkedList<Long>();
 	private long secondsOnView = 10 * 1000;
 	private long last = 0;
 	private double lineVal = 0;
@@ -51,6 +52,16 @@ public class Graphics extends View {
 			values.add(0, val);
 			times.add(0, System.currentTimeMillis() - last);
 			last = System.currentTimeMillis();
+
+            double sum = 0;
+            for (int i = 0; i < times.size(); i++){
+                sum += times.get(i);
+                if (sum > secondsOnView){
+                    times = times.subList(0, i);
+                    values = values.subList(0, i);
+                    return;
+                }
+            }
 		}
 	}
 

@@ -8,6 +8,7 @@ import java.util.Random;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -36,14 +37,20 @@ public class OpenCVMotionDetector extends IMotionDetector{
 	@Override
 	public ResultFrame processFrame(CvCameraViewFrame inputFrame) {
 		if (null == bsub){
-			bsub = new 	BackgroundSubtractorMOG2(100, 16);
+			bsub = new BackgroundSubtractorMOG2(100, 16);
 		}
 		ResultFrame resultFrame = new ResultFrame();
-		Mat frame = inputFrame.gray();
+		Mat frame = new Mat();
+        Imgproc.blur(inputFrame.gray(), frame, new Size(5, 5));
 		Mat output = frame.clone();
 		bsub.apply(frame, output, 0.01f);
-		resultFrame.frame = output;
-		resultFrame.value = 5;
+		resultFrame.frame = inputFrame.rgba();
+        double d[] = Core.sumElems(output).val;
+        double d2 = d[0] / frame.rows() / frame.cols();
+        resultFrame.value = d2;
+        //List<MatOfPoint> contours = new LinkedList<>();
+        //Imgproc.findContours(output, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+        //Imgproc.drawContours(inputFrame.rgba(), contours, -1, new Scalar(255, 0, 0), 1);
 		return resultFrame;
 	}
 
@@ -53,15 +60,15 @@ public class OpenCVMotionDetector extends IMotionDetector{
 
 	@Override
 	public void setTrashold(double i) {
-		maxTreshold = 255d / 3 * i;
+		maxTreshold = 255d / 10 * i;
 	}
 	
 	
 
 	class LastFrames{
 		
-		private List<Mat> values = new ArrayList();
-		private List<Long> times = new ArrayList<Long>();
+		private List<Mat> values = new LinkedList<>();
+		private List<Long> times = new LinkedList<Long>();
 		
 		public void add(Mat mat, Long time){
 			values.add(0, mat);
