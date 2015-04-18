@@ -180,7 +180,9 @@ public class CamFragment extends Fragment implements CvCameraViewListener2{
 			}
 		});
         frames++;
-        if (20 >= frames){
+        //Imgproc.
+        if (10 <= frames){
+            Log.e("GCGC", "GCGC");
             System.gc();
             frames = 0;
         }

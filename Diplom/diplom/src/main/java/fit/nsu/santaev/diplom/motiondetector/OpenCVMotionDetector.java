@@ -21,33 +21,51 @@ import android.util.Log;
 public class OpenCVMotionDetector extends IMotionDetector{
 
 	private double maxTreshold = 64D;
-	private Mat bg;
-	private double a = 0.1d;
-	private long startTime;
-	private long startDelta;
-	private long fpsDelta = 300;
-	private long maxDelta = 1000;
-	private Mat last;
-	
-	BackgroundSubtractorMOG2 bsub = null;
+
+    List<Mat> rgba = new ArrayList<Mat>();
+
+	BackgroundSubtractorMOG2 bsubU = null;
+    BackgroundSubtractorMOG2 bsubV = null;
 	
 	public OpenCVMotionDetector(double treshhold){
 		setTrashold(treshhold);
 	}
 	@Override
 	public ResultFrame processFrame(CvCameraViewFrame inputFrame) {
-		if (null == bsub){
-			bsub = new BackgroundSubtractorMOG2(100, 16);
+		if (null == bsubU){
+			bsubU = new BackgroundSubtractorMOG2(100, 16);
+            bsubV = new BackgroundSubtractorMOG2(100, 16);
 		}
+        Mat resized = new Mat();
+        int w = inputFrame.rgba().width();
+        int h = inputFrame.rgba().height();
+        Imgproc.resize(inputFrame.rgba(), resized, new Size(w/2, h/2));
+        Mat rgb = new Mat();
+        Mat cvt = new Mat();
+        Imgproc.cvtColor(resized, rgb, Imgproc.COLOR_RGBA2RGB);
+        Imgproc.cvtColor(rgb, cvt, Imgproc.COLOR_RGB2YUV);
+        org.opencv.core.Core.split(cvt, rgba);
+
 		ResultFrame resultFrame = new ResultFrame();
-		Mat frame = new Mat();
-        Imgproc.blur(inputFrame.gray(), frame, new Size(5, 5));
-		Mat output = frame.clone();
-		bsub.apply(frame, output, 0.01f);
-		resultFrame.frame = inputFrame.rgba();
-        double d[] = Core.sumElems(output).val;
-        double d2 = d[0] / frame.rows() / frame.cols();
+        //Imgproc.blur(cvt, frame, new Size(5, 5));
+		Mat outputU = new Mat();
+        Mat outputV = new Mat();
+		bsubU.apply(rgba.get(1), outputU, 0.01f);
+        bsubV.apply(rgba.get(2), outputV, 0.01f);
+        Mat resFrame = new Mat();
+        Core.addWeighted(outputU, 1f, outputV, 1f, 0, resFrame);
+        Mat resizedResFrame = new Mat();
+        Imgproc.resize(resFrame, resizedResFrame, new Size(0, 0), 2d, 2d, Imgproc.INTER_LINEAR);
+		resultFrame.frame = resizedResFrame;
+        double dU[] = Core.sumElems(outputU).val;
+        double dV[] = Core.sumElems(outputV).val;
+        double d2 = (dU[0] + dV[0]) / rgba.get(1).rows() / rgba.get(1).cols() / 2;
         resultFrame.value = d2;
+        outputU.release();
+        outputV.release();
+        rgb.release();
+        cvt.release();
+        resFrame.release();
         //List<MatOfPoint> contours = new LinkedList<>();
         //Imgproc.findContours(output, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         //Imgproc.drawContours(inputFrame.rgba(), contours, -1, new Scalar(255, 0, 0), 1);

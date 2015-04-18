@@ -1,6 +1,7 @@
 package fit.nsu.santaev.diplom.motiondetector;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
@@ -29,35 +30,54 @@ public class BackbroundSubMotionDetector2 extends IMotionDetector{
     int frames = 100;
 	public BackbroundSubMotionDetector2(double treshhold){
 		setTrashold(treshhold);
-
 	}
+
+    private int w;
+    private int h;
+
 	@Override
 	public ResultFrame processFrame(CvCameraViewFrame inputFrame) {
-
         if (frames > 10){
             synchronized (this) {
                 System.gc();
+                Log.e("GCGC", "GCGC");
                 frames = 0;
             }
         }
         frames++;
+        w = inputFrame.rgba().width();
+        h = inputFrame.rgba().height();
 		ResultFrame resultFrame = new ResultFrame();
-		Mat frame = inputFrame.rgba();//.reshape(2);
-        Mat blured = new Mat();
+		Mat frame = new Mat();
+        Imgproc.resize(inputFrame.rgba(), frame, new Size(w / 4, h / 4));
+        //.reshape(2);
+        //Mat blured = new Mat();
         Mat rgb = new Mat();
         Mat cvt = new Mat();
-        Imgproc.blur(frame, blured, new Size(10, 10));
-        Imgproc.cvtColor(blured, rgb, Imgproc.COLOR_RGBA2RGB);
-        Imgproc.cvtColor(rgb, cvt, Imgproc.COLOR_RGB2HSV_FULL);
+        //Imgproc.blur(frame, blured, new Size(5, 5));
+        Imgproc.cvtColor(frame, rgb, Imgproc.COLOR_RGBA2RGB);
+        Imgproc.cvtColor(rgb, cvt, Imgproc.COLOR_RGB2YUV);
 		Core.split(cvt, rgba);
 
         int w = rgba.get(0).width();
         int h = rgba.get(0).height();
 
         Mat hsvFrame = new Mat();
-        Core.addWeighted(rgba.get(0), 0.5d, rgba.get(0), 0.5d, 0, hsvFrame);
-        resultFrame.frame = rgba.get(num);//.clone();
-        //return resultFrame;
+        Core.addWeighted(rgba.get(1), 0.5d, rgba.get(2), 0.5d, 0, hsvFrame);
+        rgba.get(0).release();
+        rgba.get(1).release();
+        rgba.get(2).release();
+        resultFrame.frame = new Mat();//rgba.get(num);//.clone();
+
+        /*if (resultFrame.frame != null){
+            Imgproc.resize(hsvFrame, resultFrame.frame, new Size(0, 0), 4d, 4d, Imgproc.INTER_LINEAR);
+            rgb.release();
+            cvt.release();
+            hsvFrame.release();
+            frame.release();
+            return resultFrame;
+        }*/
+
 
 		frame = hsvFrame;
 		if (bg == null){
@@ -104,14 +124,15 @@ public class BackbroundSubMotionDetector2 extends IMotionDetector{
 		}
 		
 		//Core.add(review2, frame2, review3, review2);
-		//double d[] = Core.sumElems(review).val;
-		//double d2 = d[0] / review.rows() / review.cols();
-		resultFrame.value = 5;// + (new Random()).nextInt(10);
+		double d[] = Core.sumElems(review).val;
+		double d2 = d[0] / review.rows() / review.cols();
+		resultFrame.value = d2;// + (new Random()).nextInt(10);
 		last = bg;
         resultFrame.frame = last;
 		//resultFrame.frame = last;
         Mat rev3 = new Mat();
-        Imgproc.resize(bg, rev3, new Size(w/2, h/2));
+        //Imgproc.resize(bg, rev3, new Size(w/2, h/2));
+        Imgproc.resize(hsvFrame, resultFrame.frame, new Size(0, 0), 4d, 4d, Imgproc.INTER_LINEAR);
         //Core.add(mat2.submat(h/2, h, w/2, w), rev3, mat2.submat(h/2, h, w/2, w));
 		return resultFrame;
 
@@ -119,9 +140,9 @@ public class BackbroundSubMotionDetector2 extends IMotionDetector{
 
 	@Override
 	public void func1(Context context) {
-		//isUseMask = !isUseMask;
-        num = (num + 1) % 3;
-		Toast.makeText(context, "" + num, Toast.LENGTH_SHORT).show();
+		isUseMask = !isUseMask;
+        //num = (num + 1) % 3;
+		//Toast.makeText(context, "" + num, Toast.LENGTH_SHORT).show();
 	}
 	
 	private Mat thresh(Mat src, int d){

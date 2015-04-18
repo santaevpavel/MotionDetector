@@ -4,6 +4,7 @@ import fit.nsu.santaev.diplom.R;
 import fit.nsu.santaev.diplom.fragment.CamFragment;
 import fit.nsu.santaev.diplom.motiondetector.BackbroundSubMotionDetector;
 import fit.nsu.santaev.diplom.motiondetector.BackbroundSubMotionDetector2;
+import fit.nsu.santaev.diplom.motiondetector.CheckHSV;
 import fit.nsu.santaev.diplom.motiondetector.FrameSubMotionDetector;
 import fit.nsu.santaev.diplom.motiondetector.HystogramDetector;
 import fit.nsu.santaev.diplom.motiondetector.OpenCVMotionDetector;
@@ -109,7 +110,7 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
 			break;
         case R.id.frame_hsv:
                 setFragment(CamFragment
-                        .getInstance(new BackbroundSubMotionDetector2(100)));
+                        .getInstance(new CheckHSV(100)));
                 break;
 		default:
 			break;
