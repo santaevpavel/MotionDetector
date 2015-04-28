@@ -34,6 +34,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import fit.nsu.santaev.diplom.activity.CallListener;
+import fit.nsu.santaev.diplom.activity.MainActivity;
 
 public class LinphoneManager {
 
@@ -43,6 +44,7 @@ public class LinphoneManager {
 	private LinphoneCoreFactory linphoneCoreFactory;
 	private LinphoneCore linphoneCore;
 	private CallListener listener;
+    private MainActivity activity;
 
 	private LinphoneManager(Context context) throws LinphoneCoreException{
 		linphoneCoreFactory = LinphoneCoreFactory.instance();
@@ -63,14 +65,10 @@ public class LinphoneManager {
 			@Override
 			public void subscriptionStateChanged(LinphoneCore lc, LinphoneEvent ev,
 					SubscriptionState state) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void show(LinphoneCore lc) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -99,15 +97,11 @@ public class LinphoneManager {
 			
 			@Override
 			public void notifyPresenceReceived(LinphoneCore lc, LinphoneFriend lf) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void newSubscriptionRequest(LinphoneCore lc, LinphoneFriend lf,
 					String url) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -234,6 +228,10 @@ public class LinphoneManager {
                     if (null != listener){
                         listener.onCallFinished();
                     }
+                } else if (cstate == State.Connected){
+                    if (null != activity){
+                        activity.onCall(lc, call, cstate, message);
+                    }
                 }
 			
 		
@@ -271,8 +269,16 @@ public class LinphoneManager {
 		Timer mTimer = new Timer("Linphone scheduler");
 		mTimer.schedule(lTask, 0, 20);
 	}
-	
-	public void register(Context context, String name, String psw, String server, String proxy, String iden){
+
+    public MainActivity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(MainActivity activity) {
+        this.activity = activity;
+    }
+
+    public void register(Context context, String name, String psw, String server, String proxy, String iden){
 		linphoneCore.setVideoDevice(AndroidCameraConfiguration.retrieveCameras()[0].id);
 		linphoneCore.enableVideo(true,  true);
         linphoneCore.enableSpeaker(true);
@@ -323,53 +329,20 @@ public class LinphoneManager {
 			e.printStackTrace();
 		}
 		linphoneCore.addAuthInfo(authInfo);
-		
-		int i = 0;
-		/*while(i < 100){
-			linphoneCore.iterate();
-			i++;
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
+
 		
 	}
 	
-	public void call(String name, String dest, String psw, String server, String proxy, String iden){
+	public void call(String name, String dest, String server){
 		LinphoneCore core = linphoneCore;
 		LinphoneAddress linphoneAddress = linphoneCoreFactory.createLinphoneAddress(dest, server, name);
-		//core.enableVideo(true, true);
-		//core.setVideoDevice(AndroidCameraConfiguration.retrieveCameras()[0].id);
-		/*try {
-			core.addProxyConfig(core.createProxyConfig(iden, proxy, "", true));
-		} catch (LinphoneCoreException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		//core.addAuthInfo(linphoneCoreFactory.createAuthInfo(name, psw, "", server));
-		//core.enableSpeaker(true);
-		//core.enableVideo(true, true);
 		LinphoneCall call = null;
 		try {
 			call = core.invite(linphoneAddress);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//call.enableCamera(true);
-		//call.enableEchoCancellation(true);
-		int i = 0;
-		/*while(i < 100){
-			core.iterate();
-			i++;
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
+
 	}
 	
 	public static void init(Context context){

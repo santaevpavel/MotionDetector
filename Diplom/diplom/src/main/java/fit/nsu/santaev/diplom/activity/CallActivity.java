@@ -94,8 +94,8 @@ public class CallActivity extends Activity{
 			public void onClick(View v) {
 				//CallHelper.callAsync(CallActivity.this,  userEdit.getText().toString(), userDest.getText().toString(), userPassword.getText().toString(), 
 				//		userSipServer.getText().toString(), userProxy.getText().toString(), userIdentify.getText().toString());
-				LinphoneManager.getInstance().call(userEdit.getText().toString(), userDest.getText().toString(), userPassword.getText().toString(), 
-						userSipServer.getText().toString(), userProxy.getText().toString(), userIdentify.getText().toString());
+				//LinphoneManager.getInstance().call(userEdit.getText().toString(), userDest.getText().toString(), userPassword.getText().toString(),
+				//		userSipServer.getText().toString(), userProxy.getText().toString(), userIdentify.getText().toString());
 			}
 		});
 		/*regButton.setOnClickListener(new OnClickListener() {

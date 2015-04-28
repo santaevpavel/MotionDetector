@@ -4,6 +4,8 @@ import fit.nsu.santaev.diplom.R;
 import fit.nsu.santaev.diplom.fragment.CamFragment;
 import fit.nsu.santaev.diplom.motiondetector.BackbroundSubMotionDetector;
 import fit.nsu.santaev.diplom.motiondetector.BackbroundSubMotionDetector2;
+import fit.nsu.santaev.diplom.motiondetector.BackbroundSubMotionDetector3;
+import fit.nsu.santaev.diplom.motiondetector.BackbroundSubMotionDetector4;
 import fit.nsu.santaev.diplom.motiondetector.CheckHSV;
 import fit.nsu.santaev.diplom.motiondetector.FrameSubMotionDetector;
 import fit.nsu.santaev.diplom.motiondetector.HystogramDetector;
@@ -13,6 +15,7 @@ import fit.nsu.santaev.diplom.motiondetector.SmartFrameSubMotionDetector;
 import fit.nsu.santaev.diplom.motiondetector.TestMotionDetector;
 import fit.nsu.santaev.diplom.sip.CallHelper;
 import fit.nsu.santaev.diplom.sip.LinphoneManager;
+import fit.nsu.santaev.diplom.test.TestActivity;
 import fit.nsu.santaev.diplom.utils.MotionDetectorService;
 
 import android.app.Activity;
@@ -24,14 +27,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import org.linphone.core.LinphoneCall;
+import org.linphone.core.LinphoneCore;
+
 public class MainActivity extends Activity implements OnClickListener, CallListener{
 
     private final String USER = "santaev11";
     private final String DEST_USER = "santaev1";
-    private final String PSW = "";
-    private final String SIPSER = "10.3.71.67";//"sip2sip.info";
-    private final String PROXY = "sip:10.3.71.67:5080";//"sip:sip2sip.info";
-    private final String IDENTIFY = "sip:santaev11@10.3.71.67";//"sip:santaev11@sip2sip.info";
+    private final String PSW = "santaev11";
+    private final String SIPSER = "sip2sip.info";//"10.3.71.67";
+    private final String PROXY = "sip:sip2sip.info";//"sip:10.3.71.67:5080"
+    private final String IDENTIFY = "sip:santaev11@sip2sip.info";//"sip:santaev11@10.3.71.67";
 
 	private View buttonFrameSub = null;
     private View buttonFrameSubSmart = null;
@@ -41,6 +47,7 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
 	private View buttonOpenCV = null;
 	private View buttonOpenCV2 = null;
 	private View buttonCall = null;
+    private View buttonTest = null;
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 
     private boolean isVideoWorking = false;
@@ -59,6 +66,7 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
         buttonCall = findViewById(R.id.call);
 		buttonOpenCV = findViewById(R.id.frame_open_cv);
 		buttonOpenCV2 = findViewById(R.id.frame_open_cv2);
+        buttonTest = findViewById(R.id.test_activity);
 		
 		buttonFrameSub.setOnClickListener(this);
 		buttonFrameTest.setOnClickListener(this);
@@ -68,6 +76,7 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
 		buttonOpenCV2.setOnClickListener(this);
 		buttonCall.setOnClickListener(this);
         buttonHSV.setOnClickListener(this);
+        buttonTest.setOnClickListener(this);
 
 		mediaPlayer = MediaPlayer.create(this, R.raw.b);
 
@@ -75,6 +84,8 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
         LinphoneManager.getInstance().register(getApplicationContext(),USER, PSW,
                 SIPSER, PROXY, IDENTIFY);
         LinphoneManager.getInstance().registerCallListener(this);
+
+        LinphoneManager.getInstance().setActivity(this);
     }
 
 	@Override
@@ -94,7 +105,7 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
 			break;
 		case R.id.frame_hystogram:
 			setFragment(CamFragment
-					.getInstance(new BackbroundSubMotionDetector(100)));
+					.getInstance(new BackbroundSubMotionDetector3(100)));
 			break;
 		case R.id.frame_open_cv:
 			setFragment(CamFragment
@@ -105,12 +116,17 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
 					.getInstance(new OpenCVMotionDetector2(100)));
 			break;
 		case R.id.call:
-			Intent i = new Intent(this,  CallActivity.class);
-			startActivity(i);
+			//Intent i = new Intent(this,  CallActivity.class);
+			//startActivity(i);
+            LinphoneManager.getInstance().call(DEST_USER, DEST_USER, SIPSER);
 			break;
         case R.id.frame_hsv:
                 setFragment(CamFragment
                         .getInstance(new CheckHSV(100)));
+                break;
+        case R.id.test_activity:
+            Intent i = new Intent(this,  TestActivity.class);
+            startActivity(i);
                 break;
 		default:
 			break;
@@ -166,5 +182,13 @@ public class MainActivity extends Activity implements OnClickListener, CallListe
                 camFragment.changeVideoStatus(true);
             }
         }
+    }
+
+    public void onCall(LinphoneCore lc, LinphoneCall call, LinphoneCall.State cstate,
+                       String message){
+        VideoFragment fragment = new VideoFragment();
+        fragment.setCall(call);
+        setFragment(fragment);
+
     }
 }

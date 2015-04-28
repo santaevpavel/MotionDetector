@@ -43,6 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name="fit.nsu.santaev.diplom.activity.CallActivity" />
+        <activity android:name="fit.nsu.santaev.diplom.test.TestActivity" />
     </application>
 
 </manifest>

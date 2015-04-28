@@ -26,20 +26,22 @@ public class OpenCVMotionDetector extends IMotionDetector{
 
 	BackgroundSubtractorMOG2 bsubU = null;
     BackgroundSubtractorMOG2 bsubV = null;
-	
+
+    double resize = 2;
+
 	public OpenCVMotionDetector(double treshhold){
 		setTrashold(treshhold);
 	}
 	@Override
 	public ResultFrame processFrame(CvCameraViewFrame inputFrame) {
 		if (null == bsubU){
-			bsubU = new BackgroundSubtractorMOG2(100, 16);
-            bsubV = new BackgroundSubtractorMOG2(100, 16);
+			bsubU = new BackgroundSubtractorMOG2(50, 2f);
+            bsubV = new BackgroundSubtractorMOG2(50, 2f);
 		}
         Mat resized = new Mat();
         int w = inputFrame.rgba().width();
         int h = inputFrame.rgba().height();
-        Imgproc.resize(inputFrame.rgba(), resized, new Size(w/2, h/2));
+        Imgproc.resize(inputFrame.rgba(), resized, new Size(w/resize, h/resize));
         Mat rgb = new Mat();
         Mat cvt = new Mat();
         Imgproc.cvtColor(resized, rgb, Imgproc.COLOR_RGBA2RGB);
@@ -53,9 +55,12 @@ public class OpenCVMotionDetector extends IMotionDetector{
 		bsubU.apply(rgba.get(1), outputU, 0.01f);
         bsubV.apply(rgba.get(2), outputV, 0.01f);
         Mat resFrame = new Mat();
-        Core.addWeighted(outputU, 1f, outputV, 1f, 0, resFrame);
+        Mat mask = new Mat();
+        Core.multiply(outputU, outputV, mask);
+        Core.add(outputU, outputV, resFrame, mask);
+        //Core.addWeighted(outputU, 1f, outputV, 1f, 0, resFrame);
         Mat resizedResFrame = new Mat();
-        Imgproc.resize(resFrame, resizedResFrame, new Size(0, 0), 2d, 2d, Imgproc.INTER_LINEAR);
+        Imgproc.resize(resFrame, resizedResFrame, new Size(0, 0), resize, resize, Imgproc.INTER_LINEAR);
 		resultFrame.frame = resizedResFrame;
         double dU[] = Core.sumElems(outputU).val;
         double dV[] = Core.sumElems(outputV).val;

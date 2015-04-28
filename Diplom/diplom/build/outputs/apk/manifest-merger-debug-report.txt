@@ -100,3 +100,7 @@ activity#fit.nsu.santaev.diplom.activity.CallActivity
 ADDED from AndroidManifest.xml:45:9
 	android:name
 		ADDED from AndroidManifest.xml:46:13
+activity#fit.nsu.santaev.diplom.test.TestActivity
+ADDED from AndroidManifest.xml:48:9
+	android:name
+		ADDED from AndroidManifest.xml:49:13

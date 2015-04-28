@@ -45,6 +45,9 @@
         <activity
             android:name="fit.nsu.santaev.diplom.activity.CallActivity"
             ></activity>
+        <activity
+            android:name="fit.nsu.santaev.diplom.test.TestActivity"
+            ></activity>
     </application>
 
 </manifest>

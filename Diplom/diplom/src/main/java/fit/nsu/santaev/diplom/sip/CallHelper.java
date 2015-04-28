@@ -26,6 +26,7 @@ import org.linphone.core.LinphoneCore.GlobalState;
 import org.linphone.core.LinphoneCore.RegistrationState;
 import org.linphone.core.LinphoneCore.RemoteProvisioningState;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
+import org.opencv.imgproc.Imgproc;
 
 import android.content.Context;
 import android.util.Log;
@@ -233,8 +234,6 @@ public class CallHelper {
 					e.printStackTrace();
 				}
 			}
-			
-			
 		} catch (LinphoneCoreException e) {
 			e.printStackTrace();
 		}
